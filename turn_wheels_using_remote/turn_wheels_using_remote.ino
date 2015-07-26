@@ -5,10 +5,11 @@ const int downKey=118;
 const int leftKey=53;
 const int rightKey=52;
 const int power=22;
-const int forwardSpeedL=163;
+const int forwardSpeedL=160;
 const int forwardSpeedR=110;
-const int reverseSpeedL=-163;
+const int reverseSpeedL=-160;
 const int reverseSpeedR=-110;
+const int t=50;
 
 void setup()
  {
@@ -34,27 +35,38 @@ void setup()
   if (microM.ircommand == upKey)
    {
      microM.Motors(forwardSpeedL,forwardSpeedR,0,0);
-     delay(1000);
+     microM.ircommand = 0;
+     delay (t);
    }   
-  /*else if (microM.ircommand == downKey)
+ else if (microM.ircommand == downKey)
    {
-     microM.Motors(0,0,reverseSpeedL,reverseSpeedR);
-     delay(1000);
-   }*/
-  else if (microM.ircommand == rightKey)
+     microM.Motors(reverseSpeedL,reverseSpeedR,0,0);
+     microM.ircommand = 0;
+     delay (t);
+   }
+else if (microM.ircommand == rightKey)
    {
      microM.Motors(forwardSpeedL,0,0,0);
-     delay(1000);
+     microM.ircommand = 0;
+     delay (t);
    }
-  else if (microM.ircommand == leftKey)
+else if (microM.ircommand == leftKey)
    {
      microM.Motors(0,forwardSpeedR,0,0);
-     delay(1000);
+     microM.ircommand = 0;
+     delay (t);
    }
-  else if (microM.ircommand == power);
+else if   (microM.ircommand == power)
    {
      microM.Motors(0,0,0,0);
-     delay(1000);
+     microM.ircommand = 0;
+     delay (t);
+   }
+   
+   else
+   {
+     microM.Motors(0,0,0,0);
+     microM.ircommand = 0;
    }
 
  }
