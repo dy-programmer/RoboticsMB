@@ -27,10 +27,32 @@ void setup()
 void loop()
 {
   for (int i = 0; i < numSensors; i++)
+{  
+  if (i == 0)
   {
-    sensorInput[i]=analogRead(sensePin[i]);
+    sensorInput[i]=analogRead(sensePin[i])-350;
     Serial.print(sensorInput[i]);
     Serial.print(" ");
   } 
-  Serial.println();
+
+  
+  if (i == 1)
+  {
+    sensorInput[i]=analogRead(sensePin[i])-270;
+    Serial.print(sensorInput[i]);
+    Serial.print(" ");
+  } 
+  
+  if (i == 2)
+    {
+    sensorInput[i]=analogRead(sensePin[i])-360;
+    Serial.print(sensorInput[i]);
+    Serial.print(" ");
+  } 
+ 
 }
+Serial.println();
+}
+/*To normalize sensor readings so reading is about 0 
+when nothing is in front of it, write a function subtracting
+value of reading when nothing's in front.*/
