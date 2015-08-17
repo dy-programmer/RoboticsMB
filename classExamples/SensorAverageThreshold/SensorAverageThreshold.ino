@@ -1,4 +1,4 @@
-
+#include <turn_wheels_using_remote> 
 #include <microM.h>   // Use the microM library for motor control, IR command
 
 enum SensorPosition {
@@ -101,6 +101,48 @@ bool valuesChanged(int *values)
   return changed;
 }
 
+void autoDrive(int *normalizedValues)
+{
+  if ((normalizedValues[1]) == 2)
+  {
+    microM.Motors(110,110,0,0);
+  }
+  if ((normalizedValues[1]) == 1)
+  {
+    microM.Motors(80,80,0,0);
+  }
+  if ((normalizedValues[0]) == 0 && (normalizedValues[1]) == 0 && (normalizedValues[2]) == 0)
+  { 
+    microM.Motors(0,0,0,0);
+    delay(1000);
+    do
+    {
+      microM.Motors(-90,-90,0,0);
+    } while ((normalizedValues[0]) < 2 && (normalizedValues[2]) < 2);
+    if ((normalizedValues[0]) == 2)
+    {
+      microM.Motors(0,90,0,0);
+      delay(2000);
+      microM.Motors(110,110,0,0);
+    }
+    else if ((normalizedValues[2]) == 2)
+    {
+      microM.Motors(90,0,0,0);
+      delay(2000);
+      microM.Motors(110,110,0,0);
+    }
+  }
+  if ((normalizedValues[1]) == 0 && (normalizedValues[0] == 2))
+  {
+    microM.Motors(90,0,0,0);
+    delay(2000);
+  }
+ else if ((normalizedValues[1]) == 0 && (normalizedValues[2] == 2))
+  {
+    microM.Motors(0,90,0,0);
+    delay(2000);
+  }
+}
 /**
  * Calibrate the zero level.  Point the sensors at nothing
  * then run this calibration function to set the zero level. 
@@ -135,6 +177,7 @@ void calibrateZeroLevel()
   Serial.println();
 }
 
+
 void loop()
 {
   unsigned int averageInput[numSensors]={0};
@@ -146,31 +189,62 @@ void loop()
   // press topMenu to allow calibration, then press menu to 
   // calibrate
   //
-  const int displayButton=85; // Lock calibrate
-  const int topMenuButton=27; // Allow calibrate
+  const int volumeDown=20; // Lock calibrate
+  const int volumeUp=19; // Allow calibrate
+  const int upKey=117;  // Drives robot forward
+  const int downKey=118; //Drives robot backwards
+  const int leftKey=53; //Drives robot to the left
+  const int rightKey=52; //Drives robot to the right
+  const int power=22; //stops robot
   static bool allowCalibrate=false;
   
   if (microM.ircommand > 0)
   {
     switch (microM.ircommand)
     {
-      case topMenuButton:
+      case volumeUp:
         allowCalibrate = true;
         Serial.println("Allow Calibrate");
         break;
-      case displayButton:
+      case volumeDown:
         allowCalibrate=false;
         Serial.println("Calibration Locked");
         break;
       case menuButton:
-        if (allowCalibrate)
+        if (allowCalibrate) 
         {
           calibrateZeroLevel();
           microM.ircommand = 0;
           allowCalibrate=false;
         }
         break;
+      case upKey:
+        microM.Motors(110,110,0,0);
+        microM.ircommand = 0;
+        delay(40);
+        break;
+      case downKey:
+        microM.Motors(-110,-110,0,0);
+        microM.ircommand = 0;
+        delay(40);
+        break;
+      case leftKey:
+        microM.Motors(0,110,0,0);
+        microM.ircommand = 0;
+        delay(40);
+        break;
+      case rightKey:
+        microM.Motors(110,0,0,0);
+        microM.ircommand = 0;
+        delay(40);
+        break;
+      case power:
+        microM.Motors(0,0,0,0);
+        microM.ircommand = 0;
+        delay(40);
+        break;
     }
+    microM.Motors(0,0,0,0);
     microM.ircommand=0;
   } else
   {
@@ -182,13 +256,14 @@ void loop()
     {
       for (int i = 0; i < numSensors; i++)
       {
+        autoDrive(normalizedValues);
         Serial.print(normalizedValues[i]);
         Serial.print(" ");
       }
       Serial.println();
       allowCalibrate=false;
     }
-  } 
+  }  
 }
 
 

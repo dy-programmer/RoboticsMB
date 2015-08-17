@@ -5,10 +5,10 @@ const int downKey=118;
 const int leftKey=53;
 const int rightKey=52;
 const int power=22;
-const int forwardSpeedL=160;
-const int forwardSpeedR=110;
-const int reverseSpeedL=-160;
-const int reverseSpeedR=-110;
+const int forwardSpeedL=90;
+const int forwardSpeedR=90;
+const int reverseSpeedL=-90;
+const int reverseSpeedR=-90;
 const int t=50;
 
 void setup()

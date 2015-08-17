@@ -58,12 +58,28 @@ void computeSampleAverage(unsigned int *averagedSamples)
   counter++;
 }
 
+/* void averagedSensorData(int z)
+{
+  if (z == 0)
+  {
+    computeSampleAverage=computeSampleAverage-540;
+    Serial.print(computeSampleAverage);
+    Serial.print(" ");
+  }
+}
+*/
 void loop()
 {
   unsigned int averageInput[numSensors]={0};
+ 
   
   computeSampleAverage(averageInput);
-
+   
+/*  for (int z = 0; z < numSensors; z++)
+  {
+    averagedSensorData(z);
+  }
+  */
   for (int i = 0; i < numSensors; i++)
   {
     Serial.print(averageInput[i]);

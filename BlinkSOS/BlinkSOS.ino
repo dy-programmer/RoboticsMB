@@ -15,7 +15,7 @@
   
   THIS HAS BEEN MODIFIED TO BLINK SOS IN MORSE CODE
  */
-int ledPin=13;
+int ledPin=11;
 
 // the setup function runs once when you press reset or power the board
 void setup() {
