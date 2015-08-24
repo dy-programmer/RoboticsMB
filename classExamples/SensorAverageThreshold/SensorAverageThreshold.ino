@@ -111,7 +111,7 @@ void autoDrive(int *normalizedValues)
   {
     microM.Motors(80,80,0,0);
   }
-  if ((normalizedValues[0]) == 0 && (normalizedValues[1]) == 0 && (normalizedValues[2]) == 0)
+ /* if ((normalizedValues[0]) == 0 && (normalizedValues[1]) == 0 && (normalizedValues[2]) == 0)
   { 
     microM.Motors(0,0,0,0);
     delay(1000);
@@ -131,17 +131,26 @@ void autoDrive(int *normalizedValues)
       delay(2000);
       microM.Motors(110,110,0,0);
     }
-  }
+  } */
   if ((normalizedValues[1]) == 0 && (normalizedValues[0] == 2))
   {
     microM.Motors(90,0,0,0);
-    delay(2000);
+    delay(500);
+    microM.Motors(110,110,0,0);
   }
  else if ((normalizedValues[1]) == 0 && (normalizedValues[2] == 2))
   {
     microM.Motors(0,90,0,0);
-    delay(2000);
+    delay(500);
+    microM.Motors(110,110,0,0); 
   }
+ if ((normalizedValues[0]) == 1 && (normalizedValues[1] > 0))
+ {
+   microM.Motors(80,110,0,0);
+   delay(500);
+   microM.Motors(110,110,0,0);
+ }
+   
 }
 /**
  * Calibrate the zero level.  Point the sensors at nothing
